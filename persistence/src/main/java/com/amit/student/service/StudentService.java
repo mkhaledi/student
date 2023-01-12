@@ -5,18 +5,18 @@ import com.amit.student.model.JpaStudent;
 import com.amit.student.model.Student;
 import com.amit.student.repository.StudentRepository;
 import com.amit.student.services.IStudentService;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService implements IStudentService {
 
     private StudentRepository studentRepository;
 
+    @Autowired
     public StudentService(final StudentRepository sr) {
         this.studentRepository = sr;
     }
@@ -29,7 +29,7 @@ public class StudentService implements IStudentService {
     }
 
     //getting a specific record
-    public Student getStudentById(int id) {
+    public Student getStudentById(int id) throws RecordNotFoundException {
         JpaStudent jpaStudent = studentRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(
                 "Student id '" + id + "' does no exist"));
 
